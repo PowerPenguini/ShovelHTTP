@@ -1,5 +1,5 @@
 {    
     "PRELOAD_FILES": [
-        "index.html"
+        "/index.html"
     ]
 }
