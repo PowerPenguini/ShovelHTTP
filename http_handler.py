@@ -130,7 +130,7 @@ class TCP_HTTP_HANDLER(threading.Thread):
             status, status_text, self.NAME, self.VER, self.getMime(ext), length, data)
         self.tsend(response)
 
-        def getFile(self, path):
+    def getFile(self, path):
         try:
             with open(path) as f:
                 data = f.read()
