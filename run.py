@@ -2,4 +2,10 @@
 
 import http_main
 
-s = http_main.TCP_HTTP("127.0.0.6", 8888)
+
+def main():
+    s = http_main.TCP_HTTP("0.0.0.0", 80)
+
+
+if __name__ == "__main__":
+    main()
