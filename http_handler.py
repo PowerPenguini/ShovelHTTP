@@ -118,16 +118,26 @@ class TCP_HTTP_HANDLER(threading.Thread):
         self.close()
 
     def sendResponse(self, data, ext=".html", status="200"):  # TODO json
-        status_text = self.getTextStatus(status)
+        response_lines = []
         if data is None:
             data = self.MESS["CRITICAL"]
-            length = len(data)
+            length = 0
             status = "500"
             status_text = self.getTextStatus(status)
         else:
             length = len(data)
-        response = "HTTP/1.1 {} {}\r\nServer: {}/{}\r\nContent-Type: {}\r\nContent-Length: {}\r\n\r\n{}".format(
-            status, status_text, self.NAME, self.VER, self.getMime(ext), length, data)
+        
+        mime = self.getMime(ext)
+        status_text = self.getTextStatus(status)
+        response_lines.append("HTTP/1.1 {} {}".format(status, status_text))
+        response_lines.append("Server: {}/{}".format(self.NAME, self.VER))
+
+        response_lines.append("Content-Type: {}".format(mime))
+        response_lines.append("Content-Length: {}".format(length))
+        response_lines.append("")
+        response_lines.append(data)
+
+        response = "\r\n".join(response_lines)
         self.tsend(response)
 
     def getFile(self, path):
