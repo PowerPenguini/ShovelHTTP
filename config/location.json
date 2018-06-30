@@ -1,4 +1,5 @@
 {
     "ERROR_LOCATION": "public_err",
-    "FILES_LOCATION": "public_html"
+    "FILES_LOCATION": "public_html",
+    "DEFAULT_FILE": "/index.html"
 }
