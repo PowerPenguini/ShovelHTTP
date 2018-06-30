@@ -1,2 +1,2 @@
 # ShovelHTTP
-Simple HTTP server
+Simple HTTP server written just for fun.
