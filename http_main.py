@@ -6,6 +6,7 @@ from http_handler import *
 import load_config
 import preload
 import sys
+import errno
 
 
 class TCP_HTTP():
@@ -35,16 +36,21 @@ class TCP_HTTP():
             s = self.s
         else:
             useful.error("TCP socket filed")
-        try:
-            while True:
+        while True:
+            try:
                 conn, addr = s.accept()
                 conn.setblocking(1)
                 useful.alert("New connection established: {}".format(addr))
                 th = TCP_HTTP_HANDLER(conn, self.cfg, self.preload)
                 th.deamon = False
                 th.start()
-        except (socket.error, AttributeError) as msg:
-            useful.error("Accept filed.", msg)
-            return False
-        except KeyboardInterrupt:
-            sys.exit()
+            except socket.error as msg:
+                if msg.errno == errno.ENOTCONN:
+                    continue
+                useful.error("Accept filed.", msg)
+                return False
+            except AttributeError: 
+                useful.error("Accept filed.", msg)
+                return False
+            except KeyboardInterrupt:
+                    sys.exit()
